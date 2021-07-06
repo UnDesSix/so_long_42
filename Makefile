@@ -1,5 +1,6 @@
 NAME		=	so_long
-CC			=	clang -Wall -Werror -Wextra
+#CC			=	clang -Wall -Werror -Wextra
+CC			=	clang -Wall -Werror -Wextra -g -fsanitize=address
 RM			=	rm -rf
 
 MLX_PATH	=	./minilibx-linux/
