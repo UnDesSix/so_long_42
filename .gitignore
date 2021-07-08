@@ -1,5 +1,6 @@
-# .o files
+# .o and .a files
 *.o
+*.a
 
 # binary
 so_long
