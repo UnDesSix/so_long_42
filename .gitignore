@@ -1,0 +1,5 @@
+# .o files
+*.o
+
+# binary
+so_long
