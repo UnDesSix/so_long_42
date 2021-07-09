@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 11:48:08 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/09 12:04:07 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/09 16:25:29 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	check_map(t_map *map)
 	if (ft_strlen(map->content) < 15)
 	{
 		map->map_is_valid = FALSE;
-		return;
+		return ;
 	}
 	while (i < map->size_first)
 	{
@@ -58,7 +58,7 @@ void	check_map(t_map *map)
 		i++;
 	}
 	check_map_body(map);
-	i =  (map->lines_nb - 1) * map->size_first;
+	i = (map->lines_nb - 1) * map->size_first;
 	while (map->content[i] != '\0')
 	{
 		if (map->content[i] != '1')

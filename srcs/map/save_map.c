@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 12:03:55 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/09 12:43:11 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/09 16:25:51 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,5 @@ t_map	*read_map(char *map_file)
 	map = create_map(fd, map);
 	if (map == NULL)
 		return (NULL);
-/*
-	check_map(map);
-	convert_map(map);
-	if (map->map_is_valid == TRUE)
-		printf("%s\n", map->content);
-	else
-		printf("Map Error\n");
-	free(map->content);
-	free(map);
-	*/
 	return (map);
 }
