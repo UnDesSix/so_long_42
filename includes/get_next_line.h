@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 18:30:23 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/09 09:40:21 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/09 09:43:22 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_lista
 	t_size			line_size;
 	t_size			buff_indx;
 	char			*buffer;
-	struct s_list	*next;
+	struct s_lista	*next;
 }				t_lista;
 
 int		get_next_line(int fd, char **line);
