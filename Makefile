@@ -1,13 +1,14 @@
 NAME		=	so_long
 CC			=	clang
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
+#CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=leak -fsanitize=address
 RM			=	rm -rf
 
 SRC_DIR 	= 	srcs
 SRC			=	$(notdir $(shell find $(SRC_DIR) -type f -name *.c))
 
 LIBFT_DIR	=	libft
-LIB_FLAG	=	-L $(LIBFT_DIR)
+LIB_FLAG	=	-L $(LIBFT_DIR) -lft
 
 OBJ_DIR		=	srcs/obj
 OBJ 		= 	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
@@ -33,11 +34,13 @@ all				:	init $(NAME)
 init			:
 					@ mkdir -p $(OBJ_DIR)
 
+libft			:
+					@ (cd ./libft; make --no-print-directory all)
 
-$(NAME)			:	$(OBJ) $(INC)
+$(NAME)			:	libft $(OBJ) $(INC)
 					@ echo "$(_INFO) Initialize $(NAME)"
 					@ $(CC) $(CFLAGS) $(OBJ) mlx_linux/libmlx.a -Lmlx_linux \
-						-L/usr/lib -lXext -lX11 -lm -o $(NAME) $(LIB_FLAG)
+						-L/usr/lib $(LIB_FLAG) -lXext -lX11 -lm -o $(NAME)
 
 $(OBJ_DIR)/%.o	:	%.c
 					@ echo "\t$(_YELLOW)Compiling$(_RESET) $*.c\r\c"
