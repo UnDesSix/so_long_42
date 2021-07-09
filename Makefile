@@ -1,43 +1,57 @@
 NAME		=	so_long
-#CC			=	clang -Wall -Werror -Wextra
-CC			=	clang -Wall -Werror -Wextra -g -fsanitize=address
+CC			=	clang
+CFLAGS		=	-Wall -Wextra -Werror
 RM			=	rm -rf
 
-MLX_PATH	=	./minilibx-linux/
-MLX_NAME	=	$(MLX_PATH)libmlx.a
-MLX_INC		=	-I$(MLX_PATH)
+SRC_DIR 	= 	srcs
+SRC			=	$(notdir $(shell find $(SRC_DIR) -type f -name *.c))
 
-LIBC_PATH	=	./libft/
-LIBC_NAME	=	$(LIBC_PATH)libft.a
-LIBC_INC	=	-I$(LIBC_PATH)
+LIBFT_DIR	=	libft
+LIB_FLAG	=	-L $(LIBFT_DIR)
 
-SRCS_PATH	=	./srcs/
-OBJS_PATH	=	./objs/
-INC			=	./includes/
+OBJ_DIR		=	srcs/obj
+OBJ 		= 	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
-SRCS_NAME	=	main.c
+INC_DIR		=	includes
+INC			=	$(shell find $(INC_DIR) -type f -name "*.h")
 
-SRCS		=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))
-OBJS		=	$(SRCS:.c=.o)
+IFLAGS 		=	-I $(INC_DIR)
 
-all:		$(NAME)
+vpath			%.c $(shell find $(SRC_DIR) -type d)
+.SUFFIXES: 		.c .o .h
 
-%.o:		%.c
-			@$(CC) -I$(INC) $(MLX_INC) $(LIBC_INC) -c $< -o $@
+_YELLOW		=	\033[38;5;184m
+_GREEN		=	\033[38;5;46m
+_RESET		=	\033[0m
+_INFO		=	[$(_YELLOW)INFO$(_RESET)]
+_SUCCESS	=	[$(_GREEN)SUCCESS$(_RESET)]
+_CLEAR		=	\033[2K\c
 
-$(NAME):	$(OBJS)
-			@make --silent -C $(MLX_PATH)
-			@make --silent -C $(LIBC_PATH)
-			@$(CC) $(OBJS) $(MLX_NAME) $(LIBC_NAME) -L$(MLX_PATH) -L/usr/lib -L$(LIBC_PATH) $(LIBC_INC) $(MLX_INC) -I$(INC) -lXext -lX11 -lm -o $(NAME) 
+all				:	init $(NAME)
+					@ echo "$(_SUCCESS) Compilation done"
 
-clean:
-			@make clean --silent -C $(LIBC_PATH)
-			@$(RM) $(OBJS)
+init			:
+					@ mkdir -p $(OBJ_DIR)
 
-fclean:		clean
-			@make fclean --silent -C $(LIBC_PATH)
-			@$(RM) $(NAME)
 
-re:			fclean all
+$(NAME)			:	$(OBJ) $(INC)
+					@ echo "$(_INFO) Initialize $(NAME)"
+					@ $(CC) $(CFLAGS) $(OBJ) mlx_linux/libmlx.a -Lmlx_linux \
+						-L/usr/lib -lXext -lX11 -lm -o $(NAME) $(LIB_FLAG)
 
-.PHONY:		re fclean all clean
+$(OBJ_DIR)/%.o	:	%.c
+					@ echo "\t$(_YELLOW)Compiling$(_RESET) $*.c\r\c"
+					@ $(CC) $(CFLAGS) $(IFLAGS) -Imlx_linux -c $< -o $@
+					@ echo "$(_CLEAR)"
+
+clean			:
+					@ echo "$(_INFO) Deleted object files and directories"
+					@ $(RM) $(OBJ_DIR)
+					@ echo "$(_SUCCESS) Working directory clean"
+
+fclean			:	clean
+					@ $(RM) $(NAME)
+
+re				: 	fclean all
+
+.PHONY: 		all fclean clean re init libft
