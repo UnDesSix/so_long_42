@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:36:36 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/10 14:09:27 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/10 18:36:02 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_map
 	int		size_first;
 	int		map_is_valid;
 	int		player_is_present;
+	int		cons_nb;
 }				t_map;
 
 typedef struct s_player
@@ -70,7 +71,10 @@ typedef struct s_sprite
 {
 	t_data	*img;
 	t_data	*ground;
-	t_data	*player;
+	t_data	*front;
+	t_data	*back;
+	t_data	*prof_left;
+	t_data	*prof_right;
 	t_data	*wall;
 	t_data	*water;
 	t_data	*collect;
@@ -118,6 +122,5 @@ void	fill_player_trans(char *map, char *player, int w, int h, int offset);
 void	fill_final_image(char *map, char *player, int w, int h);
 void	fill_map(char *map_ascii, t_map *map, t_sprite *sprt);
 
-int		right_trans(t_saver *saver);
 
 #endif

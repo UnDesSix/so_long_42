@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/10 12:59:54 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/10 18:18:53 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	fill_player(char *map, char *player, int w, int h)
 
 void	fill_final_image(char *final, char *water, int w, int h)
 {
-	int		i = w * 32 * 4 + h * WIDTH * 4 * 32;
+//	int		i = w * 32 * 4 + h * WIDTH * 4 * 32;
+	int		i = 0;
 	int		j = 0;
 	int		line_beg;
 	int		line_end;
@@ -114,7 +115,10 @@ void	fill_map(char *map_ascii, t_map *map, t_sprite *sprt)
 			else if (map_ascii[i] == 'B')
 				fill_final_image(sprt->img->addr, sprt->bot->addr, i % WW, i / WW);
 			else if (map_ascii[i] == 'C')
+			{
 				fill_final_image(sprt->img->addr, sprt->collect->addr, i % WW, i / WW);
+				map->cons_nb++;
+			}
 			else if (map_ascii[i] == 'w')
 				fill_final_image(sprt->img->addr, sprt->wall->addr, i % WW, i / WW);
 			else if (map_ascii[i] == 'E')

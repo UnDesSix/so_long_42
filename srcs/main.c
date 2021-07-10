@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/10 14:14:41 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/10 18:41:46 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	main(void)
 	void	*mlx_win;
 	t_data	img;
 	t_data	ground;
-	t_data	player;
-	t_data	player2;
+	t_data	front;
+	t_data	back;
+	t_data	prof_left;
+	t_data	prof_right;
 	t_data	wall;
 	t_data	water;
 	t_data	collect;
@@ -37,10 +39,13 @@ int	main(void)
 	t_data	right;
 
 	char	*ground_p = "./xpm/ground.xpm";
-	char	*player_p = "./xpm/prof_right.xpm";
-	char	*player_p2 = "./xpm/back.xpm";
+	char	*front_p = "./xpm/front.xpm";
+	char	*back_p = "./xpm/back.xpm";
+	char	*prof_left_p = "./xpm/prof_left.xpm";
+	char	*prof_right_p = "./xpm/prof_right.xpm";
 	char	*collect_p = "./xpm/collectible.xpm";
 	char	*wall_p = "./xpm/wall.xpm";
+	char	*water_p = "./xpm/water.xpm";
 	char	*exit_p = "./xpm/exit.xpm";
 
 	char	*top_l_p = "./xpm/top_left.xpm";
@@ -75,17 +80,28 @@ int	main(void)
 				&img.endian);
 
 		// GROUND, WALL, COLLECT, EXIT
-		player2.img = mlx_xpm_file_to_image(mlx, player_p2, &img_width, &img_height);
-		player2.addr = mlx_get_data_addr(player2.img, &water.bits_per_pixel, &water.line_length,
+		front.img = mlx_xpm_file_to_image(mlx, front_p, &img_width, &img_height);
+		front.addr = mlx_get_data_addr(front.img, &water.bits_per_pixel, &water.line_length,
 				&water.endian);
 
-		player.img = mlx_xpm_file_to_image(mlx, player_p, &img_width, &img_height);
-		player.addr = mlx_get_data_addr(player.img, &water.bits_per_pixel, &water.line_length,
+		back.img = mlx_xpm_file_to_image(mlx, back_p, &img_width, &img_height);
+		back.addr = mlx_get_data_addr(back.img, &water.bits_per_pixel, &water.line_length,
 				&water.endian);
 
-		wall.img = mlx_xpm_file_to_image(mlx, wall_p, &img_width, &img_height);
+		prof_left.img = mlx_xpm_file_to_image(mlx, prof_left_p, &img_width, &img_height);
+		prof_left.addr = mlx_get_data_addr(prof_left.img, &water.bits_per_pixel, &water.line_length,
+				&water.endian);
+
+		prof_right.img = mlx_xpm_file_to_image(mlx, prof_right_p, &img_width, &img_height);
+		prof_right.addr = mlx_get_data_addr(prof_right.img, &water.bits_per_pixel, &water.line_length,
+				&water.endian);
+
 		ground.img = mlx_xpm_file_to_image(mlx, ground_p, &img_width, &img_height);
 		ground.addr = mlx_get_data_addr(ground.img, &water.bits_per_pixel, &water.line_length,
+				&water.endian);
+
+		water.img = mlx_xpm_file_to_image(mlx, water_p, &img_width, &img_height);
+		water.addr = mlx_get_data_addr(water.img, &water.bits_per_pixel, &water.line_length,
 				&water.endian);
 
 		wall.img = mlx_xpm_file_to_image(mlx, wall_p, &img_width, &img_height);
@@ -135,7 +151,10 @@ int	main(void)
 
 		sprt.img = &img;
 		sprt.ground = &ground;
-		sprt.player = &player;
+		sprt.front = &front;
+		sprt.back = &back;
+		sprt.prof_left = &prof_left;
+		sprt.prof_right = &prof_right;
 		sprt.wall = &wall;
 		sprt.water = &water;
 		sprt.collect = &collect;
@@ -163,12 +182,14 @@ int	main(void)
 		saver->map = test;
 		saver->map_ascii = map;
 		saver->sprt = &sprt;
-		saver->front.stand = player.addr;
-		saver->front.wlk_1 = player2.addr;
 
 		for (int k = 0; k < WIDTH * HEIGHT * 4; k++)
 			saver->saved_map[k] = img.addr[k];
 
+		int l = 0;
+		while (saver->map_ascii[l] != 'P')
+			l++;
+		saver->i = l;
 //		write(1, saver->saved_map, WIDTH * HEIGHT * 4);
 //		write(1, img.addr, WIDTH * HEIGHT * 4);
 //		return (0);
@@ -176,17 +197,17 @@ int	main(void)
 		while (map[i])
 		{
 			if (map[i] == 'P')
-				fill_player(img.addr, player2.addr, i % WW, i / HH);
+				fill_player(img.addr, front.addr, i % WW, i / HH);
 			i++;
 		}
 		if (test->map_is_valid == TRUE)
 		{
 //			printf("IS VALID!\n");
 			mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	//		mlx_hook(mlx_win, 2, 1L << 0, key_manager, saver);
+			mlx_hook(mlx_win, 2, 1L << 0, key_manager, saver);
 		//	mlx_hook(rt.mlx_win, 15, 1L << 16, print_again, &rt);
 		//	mlx_hook(rt.mlx_win, 33, 1L << 5, mouse_close_win, &rt);
-			mlx_loop_hook(mlx, right_trans, saver);
+		//	mlx_loop_hook(mlx, right_trans, saver);
 			mlx_loop(mlx);
 		}
 
