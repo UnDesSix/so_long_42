@@ -6,58 +6,12 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/09 19:28:57 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/10 14:14:41 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-void	fill_player(char *map, char *player, int w, int h)
-{
-//	int		i = w * 32 * 4 + (h * 32 - 14) * WIDTH * 4;
-	int		i = 0;
-	int		j = 0;
-	int		line_beg;
-	int		line_end;
-
-	line_beg = w * 32 * 4;
-	line_end = w * 32 * 4 + 32 * 4;
-	while (j < 32 * 38 * 4 && i < WIDTH * HEIGHT * 4)
-	{
-		if (i / HEIGHT / 4 >= h * 32 - 14 && i / HEIGHT / 4 < h * 32 + 32
-				&& i % (WIDTH * 4) >= line_beg && i % (WIDTH * 4) < line_end)
-		{
-			if (player[j] == -1 && player[j + 1] == -1 && player[j + 2] == -1)
-			{
-				i += 4;
-				j += 4;
-			}
-			else
-				map[i++] = player[j++];
-		}
-		else
-			i += 4;
-	}
-}
-
-void	fill_final_image(char *final, char *water, int w, int h)
-{
-	int		i = w * 32 * 4 + h * WIDTH * 4 * 32;
-	int		j = 0;
-	int		line_beg;
-	int		line_end;
-
-	line_beg = w * 32 * 4;
-	line_end = w * 32 * 4 + 32 * 4;
-	while (j < 32 * 32 * 4 && i < WIDTH * HEIGHT * 4)
-	{
-		if (i % (WIDTH * 4) >= line_beg && i % (WIDTH * 4) < line_end
-				&& i / HEIGHT / 4 >= h * 32 && i / HEIGHT / 4 < h * 32 + 32)
-			final[i++] = water[j++];
-		else
-			i += 4;
-	}
-}
+#include "string.h"
 
 int	main(void)
 {
@@ -66,6 +20,7 @@ int	main(void)
 	t_data	img;
 	t_data	ground;
 	t_data	player;
+	t_data	player2;
 	t_data	wall;
 	t_data	water;
 	t_data	collect;
@@ -82,7 +37,8 @@ int	main(void)
 	t_data	right;
 
 	char	*ground_p = "./xpm/ground.xpm";
-	char	*player_p = "./xpm/back.xpm";
+	char	*player_p = "./xpm/prof_right.xpm";
+	char	*player_p2 = "./xpm/back.xpm";
 	char	*collect_p = "./xpm/collectible.xpm";
 	char	*wall_p = "./xpm/wall.xpm";
 	char	*exit_p = "./xpm/exit.xpm";
@@ -102,8 +58,8 @@ int	main(void)
 	int		i;
 	t_map	*test;
 	char	*map;
-
-	t_saver	*saver;
+	
+	t_sprite	sprt;
 
 	test = read_map("test.ber");
 	check_map(test);
@@ -119,6 +75,10 @@ int	main(void)
 				&img.endian);
 
 		// GROUND, WALL, COLLECT, EXIT
+		player2.img = mlx_xpm_file_to_image(mlx, player_p2, &img_width, &img_height);
+		player2.addr = mlx_get_data_addr(player2.img, &water.bits_per_pixel, &water.line_length,
+				&water.endian);
+
 		player.img = mlx_xpm_file_to_image(mlx, player_p, &img_width, &img_height);
 		player.addr = mlx_get_data_addr(player.img, &water.bits_per_pixel, &water.line_length,
 				&water.endian);
@@ -173,63 +133,60 @@ int	main(void)
 		right.addr = mlx_get_data_addr(right.img, &water.bits_per_pixel, &water.line_length,
 				&water.endian);
 
-		i = 0;
-		while (map[i] != 0 && test->map_is_valid)
-		{
-			if (map[i] == 'z')
-				fill_final_image(img.addr, top_l.addr, i % 8, i / 8);
-			else if (map[i] == 'x')
-				fill_final_image(img.addr, top_r.addr, i % 8, i / 8);
-			else if (map[i] == 'c')
-				fill_final_image(img.addr, bot_l.addr, i % 8, i / 8);
-			else if (map[i] == 'v')
-				fill_final_image(img.addr, bot_r.addr, i % 8, i / 8);
-			else if (map[i] == 'T')
-				fill_final_image(img.addr, top.addr, i % 8, i / 8);
-			else if (map[i] == 'L')
-				fill_final_image(img.addr, left.addr, i % 8, i / 8);
-			else if (map[i] == 'R')
-				fill_final_image(img.addr, right.addr, i % 8, i / 8);
-			else if (map[i] == 'B')
-				fill_final_image(img.addr, bot.addr, i % 8, i / 8);
-			else if (map[i] == 'C')
-				fill_final_image(img.addr, collect.addr, i % 8, i / 8);
-			else if (map[i] == 'w')
-				fill_final_image(img.addr, wall.addr, i % 8, i / 8);
-			else if (map[i] == 'E')
-				fill_final_image(img.addr, exit.addr, i % 8, i / 8);
-			else
-				fill_final_image(img.addr, ground.addr, i % 8, i / 8);
-			i++;
-		}
+		sprt.img = &img;
+		sprt.ground = &ground;
+		sprt.player = &player;
+		sprt.wall = &wall;
+		sprt.water = &water;
+		sprt.collect = &collect;
+		sprt.exit = &exit;
+		sprt.top_l = &top_l;
+		sprt.top_r = &top_r;
+		sprt.bot_l = &bot_l;
+		sprt.bot_r = &bot_r;
+		sprt.top = &top;
+		sprt.bot = &bot;
+		sprt.left = &left;
+		sprt.right = &right;
 
-		t_data map_saved;
 
+		fill_map(map, test, &sprt);
+		t_saver	*saver;
+		
 		saver = malloc(sizeof(t_saver));
 		if (saver == NULL)
 			return (-1);
+		saver->saved_map = malloc(sizeof(char) * WIDTH * HEIGHT * 4);
 		saver->mlx = mlx;
 		saver->mlx_win = mlx_win;
-		saver->img = &img;
-		map_saved.img = ft_strdup(img.addr);
-		saver->map_saved = map_saved;
+		saver->img = img;
+		saver->map = test;
 		saver->map_ascii = map;
+		saver->sprt = &sprt;
 		saver->front.stand = player.addr;
+		saver->front.wlk_1 = player2.addr;
 
+		for (int k = 0; k < WIDTH * HEIGHT * 4; k++)
+			saver->saved_map[k] = img.addr[k];
+
+//		write(1, saver->saved_map, WIDTH * HEIGHT * 4);
+//		write(1, img.addr, WIDTH * HEIGHT * 4);
+//		return (0);
 		i = 0;
 		while (map[i])
 		{
 			if (map[i] == 'P')
-				fill_player(img.addr, player.addr, i % 8, i / 8);
+				fill_player(img.addr, player2.addr, i % WW, i / HH);
 			i++;
 		}
 		if (test->map_is_valid == TRUE)
 		{
-			printf("IS VALID!\n");
+//			printf("IS VALID!\n");
 			mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-			mlx_hook(mlx_win, 2, 1L << 0, key_manager, saver);
+	//		mlx_hook(mlx_win, 2, 1L << 0, key_manager, saver);
 		//	mlx_hook(rt.mlx_win, 15, 1L << 16, print_again, &rt);
 		//	mlx_hook(rt.mlx_win, 33, 1L << 5, mouse_close_win, &rt);
+			mlx_loop_hook(mlx, right_trans, saver);
 			mlx_loop(mlx);
 		}
 
