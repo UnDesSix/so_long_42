@@ -1,11 +1,12 @@
 NAME		=	so_long
 CC			=	clang
-CFLAGS		=	-Wall -Wextra -Werror -g
-#CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=leak -fsanitize=address
+#CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=leak -fsanitize=address
 RM			=	rm -rf
 
 SRC_DIR 	= 	srcs
 SRC			=	$(notdir $(shell find $(SRC_DIR) -type f -name *.c))
+#SRC			=	init_xpm.c
 
 LIBFT_DIR	=	libft
 LIB_FLAG	=	-L $(LIBFT_DIR) -lft
