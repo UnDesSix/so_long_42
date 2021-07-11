@@ -6,13 +6,13 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/10 18:41:46 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/11 18:32:24 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include "string.h"
-
+/*
 int	main(void)
 {
 	void	*mlx;
@@ -23,16 +23,15 @@ int	main(void)
 	t_data	back;
 	t_data	prof_left;
 	t_data	prof_right;
+	t_data	prof_right_wlk1;
 	t_data	wall;
 	t_data	water;
 	t_data	collect;
 	t_data	exit;
-
 	t_data	top_l;
 	t_data	top_r;
 	t_data	bot_l;
 	t_data	bot_r;
-
 	t_data	top;
 	t_data	bot;
 	t_data	left;
@@ -43,6 +42,7 @@ int	main(void)
 	char	*back_p = "./xpm/back.xpm";
 	char	*prof_left_p = "./xpm/prof_left.xpm";
 	char	*prof_right_p = "./xpm/prof_right.xpm";
+	char	*prof_right_wlk1_p = "./xpm/prof_right_wlk1.xpm";
 	char	*collect_p = "./xpm/collectible.xpm";
 	char	*wall_p = "./xpm/wall.xpm";
 	char	*water_p = "./xpm/water.xpm";
@@ -60,8 +60,8 @@ int	main(void)
 
 	int		img_width = 0;
 	int		img_height = 0;
-	int		i;
 	t_map	*test;
+
 	char	*map;
 	
 	t_sprite	sprt;
@@ -94,6 +94,10 @@ int	main(void)
 
 		prof_right.img = mlx_xpm_file_to_image(mlx, prof_right_p, &img_width, &img_height);
 		prof_right.addr = mlx_get_data_addr(prof_right.img, &water.bits_per_pixel, &water.line_length,
+				&water.endian);
+
+		prof_right_wlk1.img = mlx_xpm_file_to_image(mlx, prof_right_wlk1_p, &img_width, &img_height);
+		prof_right_wlk1.addr = mlx_get_data_addr(prof_right_wlk1.img, &water.bits_per_pixel, &water.line_length,
 				&water.endian);
 
 		ground.img = mlx_xpm_file_to_image(mlx, ground_p, &img_width, &img_height);
@@ -155,6 +159,7 @@ int	main(void)
 		sprt.back = &back;
 		sprt.prof_left = &prof_left;
 		sprt.prof_right = &prof_right;
+		sprt.prof_right_wlk1 = &prof_right_wlk1;
 		sprt.wall = &wall;
 		sprt.water = &water;
 		sprt.collect = &collect;
@@ -182,6 +187,8 @@ int	main(void)
 		saver->map = test;
 		saver->map_ascii = map;
 		saver->sprt = &sprt;
+		saver->first_frame = TRUE;
+		saver->offset = 0;
 
 		for (int k = 0; k < WIDTH * HEIGHT * 4; k++)
 			saver->saved_map[k] = img.addr[k];
@@ -189,25 +196,11 @@ int	main(void)
 		int l = 0;
 		while (saver->map_ascii[l] != 'P')
 			l++;
-		saver->i = l;
-//		write(1, saver->saved_map, WIDTH * HEIGHT * 4);
-//		write(1, img.addr, WIDTH * HEIGHT * 4);
-//		return (0);
-		i = 0;
-		while (map[i])
-		{
-			if (map[i] == 'P')
-				fill_player(img.addr, front.addr, i % WW, i / HH);
-			i++;
-		}
+		saver->curr_pos = l;
 		if (test->map_is_valid == TRUE)
 		{
-//			printf("IS VALID!\n");
-			mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+			mlx_loop_hook(mlx, next_frame, saver);
 			mlx_hook(mlx_win, 2, 1L << 0, key_manager, saver);
-		//	mlx_hook(rt.mlx_win, 15, 1L << 16, print_again, &rt);
-		//	mlx_hook(rt.mlx_win, 33, 1L << 5, mouse_close_win, &rt);
-		//	mlx_loop_hook(mlx, right_trans, saver);
 			mlx_loop(mlx);
 		}
 
@@ -230,4 +223,4 @@ int	main(void)
 	free(test);
 	return (0);
 }
-
+*/

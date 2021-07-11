@@ -1,7 +1,7 @@
 NAME		=	so_long
 CC			=	clang
-#CFLAGS		=	-Wall -Wextra -Werror -g
-CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=leak -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g
+#CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=leak -fsanitize=address
 RM			=	rm -rf
 
 SRC_DIR 	= 	srcs

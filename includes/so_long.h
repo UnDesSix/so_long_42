@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:36:36 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/10 18:36:02 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/11 18:34:18 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_data
 {
 	void	*img;
 	char	*addr;
-	int		bits_per_pixel;
+	int		bpp;
 	int		line_length;
 	int		endian;
 }				t_data;
@@ -60,54 +60,55 @@ typedef struct s_map
 	int		cons_nb;
 }				t_map;
 
-typedef struct s_player
-{
-	char	*stand;
-	char	*wlk_1;
-	char	*wlk_2;
-}				t_player;
-
 typedef struct s_sprite
 {
-	t_data	*img;
-	t_data	*ground;
+	t_data		*map;
+
+	t_data		*ground;
+	t_data		*collect;
+	t_data		*exit;
+
+	t_data		*wall;
+	t_data		*top_l;
+	t_data		*top_r;
+	t_data		*bot_l;
+	t_data		*bot_r;
+	t_data		*top;
+	t_data		*bot;
+	t_data		*left_l;
+	t_data		*right_r;
+
 	t_data	*front;
+	t_data	*front_1;
+	t_data	*front_2;
 	t_data	*back;
-	t_data	*prof_left;
-	t_data	*prof_right;
-	t_data	*wall;
-	t_data	*water;
-	t_data	*collect;
-	t_data	*exit;
-
-	t_data	*top_l;
-	t_data	*top_r;
-	t_data	*bot_l;
-	t_data	*bot_r;
-
-	t_data	*top;
-	t_data	*bot;
+	t_data	*back_1;
+	t_data	*back_2;
 	t_data	*left;
+	t_data	*left_1;
+	t_data	*left_2;
 	t_data	*right;
+	t_data	*right_1;
+	t_data	*right_2;
 }				t_sprite;
 
 typedef struct s_saver
 {
 	void		*mlx;
 	void		*mlx_win;
+	t_data		datas[24];
+
 	t_data		img;
 	char		*saved_map;
 	char		*map_ascii;
 	t_map		*map;
 	t_sprite	*sprt;
 
-	int		i;
+	int			curr_pos;
+	int			offset;
+	int			first_frame;
 
 	char		*ground;
-	t_player	front;
-	t_player	back;
-	t_player	left;
-	t_player	right;
 }				t_saver;
 
 
@@ -118,9 +119,13 @@ void	convert_map(t_map *map);
 int		key_manager(int keycode, t_saver *saver);
 
 void	fill_player(char *map, char *player, int w, int h);
-void	fill_player_trans(char *map, char *player, int w, int h, int offset);
+void	fill_player_trans(char *map, char *player, int w, int h, int offset, int type);
 void	fill_final_image(char *map, char *player, int w, int h);
 void	fill_map(char *map_ascii, t_map *map, t_sprite *sprt);
 
+int		next_frame(t_saver *saver);
+
+void	draw_map(char *map, char *save);
+void	draw_player(t_saver *saver);
 
 #endif

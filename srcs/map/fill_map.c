@@ -6,13 +6,13 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/10 18:18:53 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/11 11:09:04 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	fill_player_trans(char *map, char *player, int w, int h, int offset)
+void	fill_player_trans(char *map, char *player, int w, int h, int offset, int type)
 {
 //	int		i = w * 32 * 4 + (h * 32 - 14) * WIDTH * 4;
 	int		i = 0;
@@ -34,7 +34,8 @@ void	fill_player_trans(char *map, char *player, int w, int h, int offset)
 			}
 			else
 			{
-				map[i + offset * 4] = player[j++];
+//				map[i + type * offset * 4] = player[j++];
+				map[i + WW * (type) * offset * 4] = player[j++];
 				i++;
 			}
 		}
