@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 02:28:24 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:24:27 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	fill_player_trans(t_saver *saver, char *map, char *player, int w, int h, int offset, int type)
 {
 	int		i = w * 32 * 4 + (h * 32 - 14) * saver->width * 4;
-//	int		i = 0;
 	int		j = 0;
 
 	while (j < 32 * 38 * 4 && i < saver->width * saver->height * 4)
@@ -41,6 +40,26 @@ void	fill_player_trans(t_saver *saver, char *map, char *player, int w, int h, in
 				i++;
 			}
 		}
+		else
+			i += 4;
+	}
+}
+
+void	fill_sprt_spe(t_saver *saver, int sprite, int w, int h)
+{
+	int	i;
+	int	j;
+
+	i = w * 32 * 4 + h * saver->width * 4 * 32;
+	j = 0;
+
+	while (j < 32 * 32 * 4 && i < saver->width * saver->height * 4)
+	{
+		if (i % (saver->width * 4) >=  w * 32 * 4
+			&& i % (saver->width * 4) < w * 32 * 4 + 32 * 4
+			&& i / saver->width / 4 >= h * 32
+			&& i / saver->width / 4 < h * 32 + 32)
+			saver->virgin_map[i++] = saver->datas[sprite].addr[j++];
 		else
 			i += 4;
 	}

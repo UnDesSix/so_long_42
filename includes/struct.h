@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:11:45 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 01:03:27 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:36:39 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct s_map
 {
 	char	*content;
 
-	int		lines_nb; // HH
-	int		size_first; // WW
+	int		lines_nb;
+	int		size_first;
 
 	int		map_is_valid;
 	int		player_nb;
@@ -57,6 +57,9 @@ typedef struct s_saver
 	int		curr_pos;
 	int		offset;
 	int		first_frame;
+	int		rotate;
+	int		stop;
+	int		move_done;
 	char	*virgin_map;
 	int		spr_std;
 	int		spr_wlk1;

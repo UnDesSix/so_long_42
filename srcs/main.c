@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 00:34:39 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:36:49 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ int	main(void)
 		for (int k = 0; k < saver.width * saver.height * 4; k++)
 			saver.virgin_map[k] = saver.img.addr[k];
 		saver.first_frame = TRUE;
+		saver.stop = FALSE;
+		saver.rotate = FALSE;
 		saver.offset = 0;
+		saver.move_done = TRUE;
 		
 		int l = 0;
 		while (saver.map->content[l] != 'P')
@@ -70,8 +73,8 @@ int	main(void)
 		mlx_loop_hook(saver.mlx, next_frame, &saver);
 		mlx_hook(saver.mlx_win, 2, 1L << 0, key_manager, &saver);
 		mlx_loop(saver.mlx);
-		if (clean_mlx(saver) == EXIT_FAILURE)
-			printf("Init failed\n");
+		free(saver.mlx);
+		return (0);
 	}
 	printf("Map is wrong\n");
 	if (saver.map->content != NULL)

@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 17:26:47 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/11 22:34:47 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:08:12 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,20 @@ int	init_mlx(t_saver *saver)
 	return (EXIT_SUCCESS);
 }
 
-int	clean_mlx(t_saver saver)
+int	clean_mlx(t_saver *saver)
 {
 	int	i;
 
 	i = 0;
 	while (i < SPRT_NB)
-		if (mlx_destroy_image(saver.mlx, saver.datas[i++].img) != 1)
+		if (mlx_destroy_image(saver->mlx, saver->datas[i++].img) != 0)
 			return (EXIT_FAILURE);
-	if (mlx_destroy_image(saver.mlx, saver.img.img) != 1)
+	if (mlx_destroy_image(saver->mlx, saver->img.img) != 0)
 		return (EXIT_FAILURE);
-	if (mlx_destroy_window(saver.mlx, saver.mlx_win) != 1)
+	if (mlx_destroy_window(saver->mlx, saver->mlx_win) != 0)
 		return (EXIT_FAILURE);
-	free(saver.mlx);
-	free(saver.map->content);
-	free(saver.map);
+	free(saver->map->content);
+	free(saver->map);
+	free(saver->virgin_map);
 	return (EXIT_SUCCESS);
 }

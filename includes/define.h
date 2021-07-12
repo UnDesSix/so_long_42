@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 17:20:46 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/11 22:18:52 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:11:12 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define ARROW_RIGHT	100
 # define ARROW_UP		119
 # define ARROW_DOWN		115
-# define esc		65307
+# define ESC			65307
 
 # define FALSE	0
 # define TRUE	1

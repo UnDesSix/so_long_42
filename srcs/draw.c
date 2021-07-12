@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 23:15:00 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 02:19:18 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:50:02 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,20 @@ void	draw_player(t_saver *saver)
 	offset = saver->offset;
 	if (saver->first_frame == TRUE)
 	{
-		fill_player_trans(saver, saver->img.addr,
-			saver->datas[FRONT].addr, i % saver->width_nb, i / saver->width_nb, 0, 0);
-		mlx_put_image_to_window(saver->mlx, saver->mlx_win, saver->img.img, 0, 0);
+		if (offset == 0 && saver->rotate == TRUE)
+		{
+			player = saver->datas[saver->spr_std].addr;
+			fill_player_trans(saver, saver->img.addr,
+					player, i % saver->width_nb, i / saver->width_nb, offset, 0);
+			mlx_put_image_to_window(saver->mlx, saver->mlx_win, saver->img.img, 0, 0);
+		}
+		else
+		{
+			fill_player_trans(saver, saver->img.addr,
+					saver->datas[FRONT].addr, i % saver->width_nb, i / saver->width_nb, 0, 0);
+			mlx_put_image_to_window(saver->mlx, saver->mlx_win, saver->img.img, 0, 0);
+		}
+		return;
 	}
 	else
 	{
@@ -48,26 +59,32 @@ void	draw_player(t_saver *saver)
 			player1 = saver->datas[saver->spr_wlk1].addr;
 		else
 			player1 = saver->datas[saver->spr_wlk2].addr;
+		if (offset == 0 && saver->rotate == TRUE)
+		{
+			fill_player_trans(saver, saver->img.addr,
+					player, i % saver->width_nb, i / saver->width_nb, offset, 0);
+			mlx_put_image_to_window(saver->mlx, saver->mlx_win, saver->img.img, 0, 0);
+		}
 		if (offset >= 32)
 		{
 			fill_player_trans(saver, saver->img.addr,
-				player, i % saver->width_nb, i / saver->width_nb, offset, 0);
+					player, i % saver->width_nb, i / saver->width_nb, offset, 0);
 			mlx_put_image_to_window(saver->mlx, saver->mlx_win, saver->img.img, 0, 0);
 		}
 		else
 		{
 			if (saver->spr_std == RIGHT)
 				fill_player_trans(saver, saver->img.addr,
-					player1, i % saver->width_nb - 1, i / saver->width_nb, offset, 1);
+						player1, i % saver->width_nb - 1, i / saver->width_nb, offset, 1);
 			else if (saver->spr_std == LEFT)
 				fill_player_trans(saver, saver->img.addr,
-					player1, i % saver->width_nb + 1, i / saver->width_nb, offset, -1);
+						player1, i % saver->width_nb + 1, i / saver->width_nb, offset, -1);
 			else if (saver->spr_std == BACK)
 				fill_player_trans(saver, saver->img.addr,
-					player1, i % saver->width_nb, i / saver->width_nb + 1, offset, -32);
+						player1, i % saver->width_nb, i / saver->width_nb + 1, offset, -32);
 			else if (saver->spr_std == FRONT)
 				fill_player_trans(saver, saver->img.addr,
-					player1, i % saver->width_nb, i / saver->width_nb - 1, offset, 32);
+						player1, i % saver->width_nb, i / saver->width_nb - 1, offset, 32);
 			mlx_put_image_to_window(saver->mlx, saver->mlx_win, saver->img.img, 0, 0);
 			saver->offset++;
 		}
