@@ -33,6 +33,7 @@ all				:	init $(NAME)
 					@ echo "$(_SUCCESS) Compilation done"
 
 init			:
+					@ (cd ./mlx_linux; make --no-print-directory all)
 					@ mkdir -p $(OBJ_DIR)
 
 libft			:
