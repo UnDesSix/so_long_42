@@ -6,12 +6,11 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 17:26:47 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/11 19:31:01 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/11 22:34:47 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
 
 int	init_xpm(t_saver *saver, char **path)
 {
@@ -48,23 +47,23 @@ int	init_mlx(t_saver *saver)
 		"./xpm/right.xpm", "./xpm/right_1.xpm", "./xpm/right_2.xpm",
 		NULL};
 
-	saver->mlx_win = mlx_new_window(saver->mlx, WIDTH, HEIGHT, "PEKOMEN");
-	if (saver->mlx_win)
+	saver->mlx_win = mlx_new_window(saver->mlx, saver->width, saver->height, "PEKOMEN");
+	if (saver->mlx_win == NULL)
 		return (EXIT_FAILURE);
-	saver->img.img = mlx_new_image(saver->mlx, WIDTH, HEIGHT);
-	if (saver->img.img)
+	saver->img.img = mlx_new_image(saver->mlx, saver->width, saver->height);
+	if (saver->img.img == NULL)
 		return (EXIT_FAILURE);
 	saver->img.addr
 		= mlx_get_data_addr(saver->img.img, &saver->img.bpp,
 			&saver->img.line_length, &saver->img.endian);
-	if (saver->img.addr)
+	if (saver->img.addr == NULL)
 		return (EXIT_FAILURE);
 	if (init_xpm(saver, (char **)path) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int		clean_mlx(t_saver saver)
+int	clean_mlx(t_saver saver)
 {
 	int	i;
 
@@ -72,20 +71,12 @@ int		clean_mlx(t_saver saver)
 	while (i < SPRT_NB)
 		if (mlx_destroy_image(saver.mlx, saver.datas[i++].img) != 1)
 			return (EXIT_FAILURE);
-	if (mlx_destroy_image(saver.mlx, saver.img) != 1)
+	if (mlx_destroy_image(saver.mlx, saver.img.img) != 1)
+		return (EXIT_FAILURE);
+	if (mlx_destroy_window(saver.mlx, saver.mlx_win) != 1)
 		return (EXIT_FAILURE);
 	free(saver.mlx);
+	free(saver.map->content);
+	free(saver.map);
 	return (EXIT_SUCCESS);
 }
-
-/*
-int	main(void)
-{
-	t_saver	saver;
-
-	saver.mlx = mlx_init();
-	init_xpm(&saver);
-	printf("OK!\n");
-	clean_mlx(saver);
-	return (0);
-}*/

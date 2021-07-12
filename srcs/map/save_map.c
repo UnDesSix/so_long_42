@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 12:03:55 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/09 16:25:51 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/11 19:58:47 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,10 @@ t_map	*init_map(void)
 		return (NULL);
 	map->content[0] = '\0';
 	map->lines_nb = 0;
+	map->player_nb = 0;
+	map->exit_nb = 0;
+	map->cons_nb = 0;
 	map->map_is_valid = TRUE;
-	map->player_is_present = FALSE;
 	return (map);
 }
 

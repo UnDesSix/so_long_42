@@ -6,18 +6,12 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 17:20:46 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/11 19:06:43 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/11 22:18:52 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINE_H
 # define DEFINE_H
-
-
-# define WW		20
-# define HH		20
-# define WIDTH	(WW * 32)
-# define HEIGHT	(HH * 32)
 
 # define ARROW_LEFT		97
 # define ARROW_RIGHT	100

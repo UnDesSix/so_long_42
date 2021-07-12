@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 11:48:08 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/09 16:25:29 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/11 20:25:12 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,32 @@ void	check_map_body(t_map *map)
 			map->map_is_valid = FALSE;
 		i = 0;
 		while (++i < map->size_first - 1)
-		{
 			if (map->content[i + j * map->size_first] != '1'
 				&& map->content[i + j * map->size_first] != '0'
 				&& map->content[i + j * map->size_first] != 'E'
 				&& map->content[i + j * map->size_first] != 'P'
 				&& map->content[i + j * map->size_first] != 'C')
 				map->map_is_valid = FALSE;
-			if (map->content[i + j * map->size_first] == 'P'
-				&& map->player_is_present == TRUE)
-				map->map_is_valid = FALSE;
-			if (map->content[i + j * map->size_first] == 'P')
-				map->player_is_present = TRUE;
-		}
 	}
+}
+
+void	check_numbers(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	while (map->content[i] != '\0')
+	{
+		if (map->content[i] == 'P')
+			map->player_nb++;
+		else if (map->content[i] == 'C')
+			map->cons_nb++;
+		else if (map->content[i] == 'E')
+			map->exit_nb++;
+		i++;
+	}
+	if (map->player_nb != 1 || map->cons_nb < 1 || map->exit_nb < 1)
+		map->map_is_valid = FALSE;
 }
 
 void	check_map(t_map *map)
@@ -65,4 +77,5 @@ void	check_map(t_map *map)
 			map->map_is_valid = FALSE;
 		i++;
 	}
+	check_numbers(map);
 }
