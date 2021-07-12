@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 17:26:47 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 17:25:18 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:10:32 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	init_mlx(t_saver *svr)
 		"./xpm/right.xpm", "./xpm/right_1.xpm", "./xpm/right_2.xpm",
 		NULL};
 
-	svr->mlx_win = mlx_new_window(svr->mlx, svr->width, svr->height, "PEKOMEN");
+	svr->mlx_win = mlx_new_window(svr->mlx, svr->width, svr->height, "./so_long");
 	if (svr->mlx_win == NULL)
 		return (EXIT_FAILURE);
 	svr->img.img = mlx_new_image(svr->mlx, svr->width, svr->height);

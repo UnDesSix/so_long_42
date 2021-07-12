@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 12:03:55 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 17:13:34 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:07:23 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_map	*read_map(char *map_file)
 	if (map == NULL)
 		return (NULL);
 	fd = open(map_file, O_RDONLY);
-	if (fd < 0)
+	if (fd < 0 || read(fd, 0, 0) < 0)
 	{
 		free(map->content);
 		free(map);

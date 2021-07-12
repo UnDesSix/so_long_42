@@ -6,11 +6,17 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 17:25:42 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:16:14 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+int	mouse_close_win(t_saver *saver)
+{
+	saver->stop = ESC;
+	return (0);
+}
 
 int	check_window_size(t_saver *saver)
 {
@@ -83,6 +89,7 @@ int	main(int argc, char **argv)
 		return (error_syscall());
 	mlx_loop_hook(saver.mlx, next_frame, &saver);
 	mlx_hook(saver.mlx_win, 2, 1L << 0, key_manager, &saver);
+	mlx_hook(saver.mlx_win, 33, 1L << 5, mouse_close_win, &saver);
 	mlx_loop(saver.mlx);
 	free(saver.mlx);
 	return (0);
