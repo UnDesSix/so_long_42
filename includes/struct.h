@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:11:45 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 13:36:39 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 17:23:02 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,10 @@ typedef struct s_map
 	int		cons_nb;
 }				t_map;
 
-
 typedef struct s_saver
 {
 	void	*mlx;
 	void	*mlx_win;
-	
 	t_map	*map;
 
 	int		width_nb;

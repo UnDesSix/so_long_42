@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 17:26:47 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 14:51:06 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 17:25:18 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	init_xpm(t_saver *saver, char **path)
 	return (EXIT_SUCCESS);
 }
 
-int	init_mlx(t_saver *saver)
+int	init_mlx(t_saver *svr)
 {
 	const char	*path[] =
 		{"./xpm/ground.xpm", "./xpm/collect.xpm", "./xpm/exit.xpm",
@@ -47,18 +47,18 @@ int	init_mlx(t_saver *saver)
 		"./xpm/right.xpm", "./xpm/right_1.xpm", "./xpm/right_2.xpm",
 		NULL};
 
-	saver->mlx_win = mlx_new_window(saver->mlx, saver->width, saver->height, "PEKOMEN");
-	if (saver->mlx_win == NULL)
+	svr->mlx_win = mlx_new_window(svr->mlx, svr->width, svr->height, "PEKOMEN");
+	if (svr->mlx_win == NULL)
 		return (EXIT_FAILURE);
-	saver->img.img = mlx_new_image(saver->mlx, saver->width, saver->height);
-	if (saver->img.img == NULL)
+	svr->img.img = mlx_new_image(svr->mlx, svr->width, svr->height);
+	if (svr->img.img == NULL)
 		return (EXIT_FAILURE);
-	saver->img.addr
-		= mlx_get_data_addr(saver->img.img, &saver->img.bpp,
-			&saver->img.line_length, &saver->img.endian);
-	if (saver->img.addr == NULL)
+	svr->img.addr
+		= mlx_get_data_addr(svr->img.img, &svr->img.bpp,
+			&svr->img.line_length, &svr->img.endian);
+	if (svr->img.addr == NULL)
 		return (EXIT_FAILURE);
-	if (init_xpm(saver, (char **)path) == EXIT_FAILURE)
+	if (init_xpm(svr, (char **)path) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -85,5 +85,4 @@ int	clean_mlx(t_saver *saver)
 	free(saver->map);
 	free(saver->virgin_map);
 	exit(EXIT_SUCCESS);
-//	return (EXIT_SUCCESS);
 }

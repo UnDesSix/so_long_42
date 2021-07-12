@@ -10,11 +10,17 @@
 
 ## Please use configure script
 
+_YELLOW		=	\033[38;5;184m
+_GREEN		=	\033[38;5;46m
+_RESET		=	\033[0m
+_INFO		=	[$(_YELLOW)INFO$(_RESET)]
+_SUCCESS	=	[$(_GREEN)SUCCESS$(_RESET)]
+_CLEAR		=	\033[2K\c
 
 all	: do_configure
 
 do_configure	:
-	./configure > /dev/null 2>&1
+	 ./configure > /dev/null 2>&1
 
 clean	:
 	./configure clean > /dev/null 2>&1

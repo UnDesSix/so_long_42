@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 13:36:49 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 17:25:42 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,63 +24,66 @@ int	check_window_size(t_saver *saver)
 	mlx_get_screen_size(saver->mlx, &w_max, &h_max);
 	if (w_max >= saver->width && h_max >= saver->height)
 		return (EXIT_SUCCESS);
-	free(saver->mlx);
+	if (saver->mlx != NULL)
+	{
+		mlx_loop_end(saver->mlx);
+		mlx_destroy_display(saver->mlx);
+		free(saver->mlx);
+	}
 	if (saver->map->content != NULL)
 		free(saver->map->content);
 	if (saver->map != NULL)
 		free(saver->map);
-	return (EXIT_FAILURE);
+	ft_putstr_fd("ERROR : map is too big for your screen\n", 2);
+	exit(EXIT_FAILURE);
 }
 
-int	main(void)
+int	init_saver(t_saver *saver)
+{
+	int	i;
+
+	i = -1;
+	saver->virgin_map = malloc(sizeof(char) * saver->width * saver->height * 4);
+	if (saver->virgin_map == NULL)
+		return (EXIT_FAILURE);
+	while (++i < saver->width * saver->height * 4)
+		saver->virgin_map[i] = saver->img.addr[i];
+	saver->offset = 0;
+	saver->curr_pos = 0;
+	saver->stop = FALSE;
+	saver->rotate = FALSE;
+	saver->move_done = TRUE;
+	saver->first_frame = TRUE;
+	while (saver->map->content[saver->curr_pos] != 'P')
+		saver->curr_pos++;
+	return (EXIT_SUCCESS);
+}
+
+int	main(int argc, char **argv)
 {
 	t_saver	saver;
 
-	// TODO a function to check .ber extension
-	saver.map = read_map("test.ber");
+	if (check_map_name(argc, argv) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	saver.map = read_map(argv[1]);
+	if (saver.map == NULL)
+		return (error_reading());
 	check_map(saver.map);
-	if (saver.map->map_is_valid == TRUE)
-	{
-		convert_map(saver.map);
-		saver.mlx = mlx_init();
-		if (check_window_size(&saver) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (saver.mlx == NULL)
-			printf("Init MLX failed\n");
-		if (init_mlx(&saver) == EXIT_FAILURE)
-			printf("Inits failed\n");
-		printf("Map is valid\n");
-		
-		fill_map(&saver);
-
-		saver.virgin_map = malloc(sizeof(char) * saver.width * saver.height * 4);
-		if (saver.virgin_map == NULL)
-			return (EXIT_FAILURE);	
-		for (int k = 0; k < saver.width * saver.height * 4; k++)
-			saver.virgin_map[k] = saver.img.addr[k];
-		saver.first_frame = TRUE;
-		saver.stop = FALSE;
-		saver.rotate = FALSE;
-		saver.offset = 0;
-		saver.move_done = TRUE;
-		
-		int l = 0;
-		while (saver.map->content[l] != 'P')
-			l++;
-		saver.curr_pos = l;
-
-
-		mlx_loop_hook(saver.mlx, next_frame, &saver);
-		mlx_hook(saver.mlx_win, 2, 1L << 0, key_manager, &saver);
-		mlx_loop(saver.mlx);
-		free(saver.mlx);
-		return (0);
-	}
-	printf("Map is wrong\n");
-	if (saver.map->content != NULL)
-		free(saver.map->content);
-	if (saver.map != NULL)
-		free(saver.map);
+	if (saver.map->map_is_valid == FALSE)
+		return (error_map(&saver));
+	convert_map(saver.map);
+	saver.mlx = mlx_init();
+	if (saver.mlx == NULL)
+		return (error_mlx_init());
+	check_window_size(&saver);
+	if (init_mlx(&saver) == EXIT_FAILURE)
+		return (error_mlx_init());
+	fill_map(&saver);
+	if (init_saver(&saver) == EXIT_FAILURE)
+		return (error_syscall());
+	mlx_loop_hook(saver.mlx, next_frame, &saver);
+	mlx_hook(saver.mlx_win, 2, 1L << 0, key_manager, &saver);
+	mlx_loop(saver.mlx);
+	free(saver.mlx);
 	return (0);
 }
-
