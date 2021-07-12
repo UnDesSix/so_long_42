@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:36:36 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 18:37:59 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:22:58 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int		error_syscall(void);
 int		error_mlx_init(void);
 int		error_map(t_saver *saver);
 
-int	move_down(t_saver *saver);
-int	move_up(t_saver *saver);
-int	move_left(t_saver *saver);
-int	move_right(t_saver *saver);
+int		move_down(t_saver *saver);
+int		move_up(t_saver *saver);
+int		move_left(t_saver *saver);
+int		move_right(t_saver *saver);
 
-int	deal_collect(t_saver *saver);
-int	is_wall(t_saver *saver, int direction);
+int		deal_collect(t_saver *saver);
+int		is_wall(t_saver *saver, int direction);
 
 #endif
