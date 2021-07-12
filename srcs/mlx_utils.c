@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 17:26:47 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 13:08:12 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 14:51:06 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,15 @@ int	clean_mlx(t_saver *saver)
 		return (EXIT_FAILURE);
 	if (mlx_destroy_window(saver->mlx, saver->mlx_win) != 0)
 		return (EXIT_FAILURE);
+	if (saver->mlx != NULL)
+	{
+		mlx_loop_end(saver->mlx);
+		mlx_destroy_display(saver->mlx);
+		free(saver->mlx);
+	}
 	free(saver->map->content);
 	free(saver->map);
 	free(saver->virgin_map);
-	return (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
+//	return (EXIT_SUCCESS);
 }
