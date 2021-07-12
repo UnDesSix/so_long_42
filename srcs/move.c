@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:28:05 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 17:50:11 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:46:03 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 int	move_down(t_saver *saver)
 {
+	char	*nb_of_steps;
+
 	saver->rotate = TRUE;
 	saver->spr_std = FRONT;
 	if (is_wall(saver, saver->width_nb) == TRUE)
 		return (0);
+	nb_of_steps = ft_itoa(++saver->step);
+	ft_putstr_fd(nb_of_steps, 1);
+	ft_putstr_fd("\n", 1);
+	free(nb_of_steps);
 	saver->rotate = FALSE;
 	saver->move_done = FALSE;
 	saver->first_frame = FALSE;
@@ -32,10 +38,16 @@ int	move_down(t_saver *saver)
 
 int	move_up(t_saver *saver)
 {
+	char	*nb_of_steps;
+
 	saver->rotate = TRUE;
 	saver->spr_std = BACK;
 	if (is_wall(saver, -saver->width_nb) == TRUE)
 		return (0);
+	nb_of_steps = ft_itoa(++saver->step);
+	ft_putstr_fd(nb_of_steps, 1);
+	ft_putstr_fd("\n", 1);
+	free(nb_of_steps);
 	saver->rotate = FALSE;
 	saver->move_done = FALSE;
 	saver->first_frame = FALSE;
@@ -50,10 +62,16 @@ int	move_up(t_saver *saver)
 
 int	move_right(t_saver *saver)
 {
+	char	*nb_of_steps;
+
 	saver->rotate = TRUE;
 	saver->spr_std = RIGHT;
 	if (is_wall(saver, 1) == TRUE)
 		return (0);
+	nb_of_steps = ft_itoa(++saver->step);
+	ft_putstr_fd(nb_of_steps, 1);
+	ft_putstr_fd("\n", 1);
+	free(nb_of_steps);
 	saver->rotate = FALSE;
 	saver->move_done = FALSE;
 	saver->first_frame = FALSE;
@@ -68,10 +86,16 @@ int	move_right(t_saver *saver)
 
 int	move_left(t_saver *saver)
 {
+	char	*nb_of_steps;
+
 	saver->rotate = TRUE;
 	saver->spr_std = LEFT;
 	if (is_wall(saver, -1) == TRUE)
 		return (0);
+	nb_of_steps = ft_itoa(++saver->step);
+	ft_putstr_fd(nb_of_steps, 1);
+	ft_putstr_fd("\n", 1);
+	free(nb_of_steps);
 	saver->rotate = FALSE;
 	saver->move_done = FALSE;
 	saver->first_frame = FALSE;

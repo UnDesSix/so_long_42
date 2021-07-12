@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 23:15:00 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 18:39:03 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:34:58 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	draw_transition(t_saver *saver)
 	i = saver->curr_pos;
 	if (saver->spr_std == RIGHT)
 		fill_player_trans_1(saver, i % saver->width_nb - 1,
-			i / saver->width_nb,  1);
+			i / saver->width_nb, 1);
 	else if (saver->spr_std == LEFT)
 		fill_player_trans_1(saver, i % saver->width_nb + 1,
 			i / saver->width_nb, -1);

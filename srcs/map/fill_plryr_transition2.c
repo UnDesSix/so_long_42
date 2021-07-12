@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:57:59 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 18:36:16 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:24:33 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	increment_i_and_j_2(int *i, int *j)
 int	must_write_2(t_saver *saver, int i, int w, int h)
 {
 	if (i / saver->width / 4 >= h * 32 - 14
-			&& i / saver->width / 4 < h * 32 + 32
-			&& i % (saver->width * 4) >=  w * 32 * 4
-			&& i % (saver->width * 4) < w * 32 * 4 + 32 * 4)
+		&& i / saver->width / 4 < h * 32 + 32
+		&& i % (saver->width * 4) >= w * 32 * 4
+		&& i % (saver->width * 4) < w * 32 * 4 + 32 * 4)
 		return (TRUE);
 	return (FALSE);
 }
@@ -43,7 +43,6 @@ void	fill_player_trans_2b(t_saver *saver, int *i, int *j, int type)
 		map[*i + saver->width_nb * type * saver->offset * 4]
 			= player[(*j)++];
 	(*i)++;
-
 }
 
 void	fill_player_trans_2(t_saver *saver, int w, int h, int type)

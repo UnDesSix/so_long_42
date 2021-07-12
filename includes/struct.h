@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 19:11:45 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 17:23:02 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:42:40 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ typedef struct s_saver
 	t_data	datas[SPRT_NB];
 	t_data	img;
 
-	int		curr_pos;
-	int		offset;
-	int		first_frame;
-	int		rotate;
 	int		stop;
+	int		step;
+	int		offset;
+	int		rotate;
+	int		curr_pos;
 	int		move_done;
+	int		first_frame;
 	char	*virgin_map;
 	int		spr_std;
 	int		spr_wlk1;

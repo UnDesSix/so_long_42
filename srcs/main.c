@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 19:16:14 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:42:31 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	init_saver(t_saver *saver)
 		return (EXIT_FAILURE);
 	while (++i < saver->width * saver->height * 4)
 		saver->virgin_map[i] = saver->img.addr[i];
+	saver->step = 0;
 	saver->offset = 0;
 	saver->curr_pos = 0;
 	saver->stop = FALSE;
@@ -63,6 +64,15 @@ int	init_saver(t_saver *saver)
 	while (saver->map->content[saver->curr_pos] != 'P')
 		saver->curr_pos++;
 	return (EXIT_SUCCESS);
+}
+
+void	routine(t_saver *saver)
+{
+	mlx_loop_hook(saver->mlx, next_frame, saver);
+	mlx_hook(saver->mlx_win, 2, 1L << 0, key_manager, saver);
+	mlx_hook(saver->mlx_win, 33, 1L << 5, mouse_close_win, saver);
+	mlx_loop(saver->mlx);
+	free(saver->mlx);
 }
 
 int	main(int argc, char **argv)
@@ -87,10 +97,6 @@ int	main(int argc, char **argv)
 	fill_map(&saver);
 	if (init_saver(&saver) == EXIT_FAILURE)
 		return (error_syscall());
-	mlx_loop_hook(saver.mlx, next_frame, &saver);
-	mlx_hook(saver.mlx_win, 2, 1L << 0, key_manager, &saver);
-	mlx_hook(saver.mlx_win, 33, 1L << 5, mouse_close_win, &saver);
-	mlx_loop(saver.mlx);
-	free(saver.mlx);
+	routine(&saver);
 	return (0);
 }

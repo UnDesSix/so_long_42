@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 17:26:47 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 19:10:32 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:27:31 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ int	init_xpm(t_saver *saver, char **path)
 
 int	init_mlx(t_saver *svr)
 {
-	const char	*path[] =
-		{"./xpm/ground.xpm", "./xpm/collect.xpm", "./xpm/exit.xpm",
-		"./xpm/wall.xpm", "./xpm/top_l.xpm", "./xpm/top_r.xpm",
-		"./xpm/bot_l.xpm", "./xpm/bot_r.xpm", "./xpm/top.xpm",
-		"./xpm/bot.xpm", "./xpm/left_l.xpm", "./xpm/right_r.xpm",
-		"./xpm/front.xpm", "./xpm/front_1.xpm", "./xpm/front_2.xpm",
-		"./xpm/back.xpm", "./xpm/back_1.xpm", "./xpm/back_2.xpm",
-		"./xpm/left.xpm", "./xpm/left_1.xpm", "./xpm/left_2.xpm",
-		"./xpm/right.xpm", "./xpm/right_1.xpm", "./xpm/right_2.xpm",
-		NULL};
+	const char	*path[] = {"./xpm/ground.xpm", "./xpm/collect.xpm",
+		"./xpm/exit.xpm", "./xpm/wall.xpm", "./xpm/top_l.xpm",
+		"./xpm/top_r.xpm", "./xpm/bot_l.xpm", "./xpm/bot_r.xpm",
+		"./xpm/top.xpm", "./xpm/bot.xpm", "./xpm/left_l.xpm",
+		"./xpm/right_r.xpm", "./xpm/front.xpm", "./xpm/front_1.xpm",
+		"./xpm/front_2.xpm", "./xpm/back.xpm", "./xpm/back_1.xpm",
+		"./xpm/back_2.xpm", "./xpm/left.xpm", "./xpm/left_1.xpm",
+		"./xpm/left_2.xpm", "./xpm/right.xpm", "./xpm/right_1.xpm",
+		"./xpm/right_2.xpm", NULL};
 
-	svr->mlx_win = mlx_new_window(svr->mlx, svr->width, svr->height, "./so_long");
+	svr->mlx_win
+		= mlx_new_window(svr->mlx, svr->width, svr->height, "./so_long");
 	if (svr->mlx_win == NULL)
 		return (EXIT_FAILURE);
 	svr->img.img = mlx_new_image(svr->mlx, svr->width, svr->height);

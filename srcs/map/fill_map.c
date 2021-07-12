@@ -6,44 +6,11 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 09:33:57 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/07/12 17:57:29 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/07/12 19:30:46 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-void	fill_player_trans(t_saver *saver, char *map, char *player, int w, int h, int offset, int type)
-{
-	int		i = w * 32 * 4 + (h * 32 - 14) * saver->width * 4;
-	int		j = 0;
-
-	while (j < 32 * 38 * 4 && i < saver->width * saver->height * 4)
-	{
-		if (i / saver->width / 4 >= h * 32 - 14
-			&& i / saver->width / 4 < h * 32 + 32
-			&& i % (saver->width * 4) >=  w * 32 * 4
-			&& i % (saver->width * 4) < w * 32 * 4 + 32 * 4)
-		{
-			if (player[j] == -1 && player[j + 1] == -1 && player[j + 2] == -1)
-			{
-				i += 4;
-				j += 4;
-			}
-			else
-			{
-				if (saver->first_frame == TRUE)
-					map[i + type * offset * 4] = player[j++];
-				else if (saver->spr_std == RIGHT || saver->spr_std == LEFT)
-					map[i + type * offset * 4] = player[j++];
-				else if (saver->spr_std == FRONT || saver->spr_std == BACK)
-					map[i + saver->width_nb * (type) * offset * 4] = player[j++];
-				i++;
-			}
-		}
-		else
-			i += 4;
-	}
-}
 
 void	fill_sprt_spe(t_saver *saver, int sprite, int w, int h)
 {
